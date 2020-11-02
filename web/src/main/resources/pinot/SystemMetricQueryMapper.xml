@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.navercorp.pinpoint.web.metric.util.SystemMetricTemplate">
+
+    <select id="selectSystemMetric" resultType="hashMap" parameterType="hashMap">
+        SELECT fieldValue,
+            tagName,
+            tagValue,
+            timestampInEpoch
+        FROM ${tableName}
+        WHERE applicationName = #{applicationName}
+            AND metricName = #{metricName}
+            AND fieldName = #{fieldName}
+            <foreach collection="tags" item="tag" separator=" ">
+                AND tagName = #{tag.tagName} AND tagValue = #{tag.tagValue}
+            </foreach>
+            AND timestampInEpoch BETWEEN #{range.from} AND #{range.to}
+            <if test="interval != null">
+                AND timestampInEpoch % #{interval} = 0
+            </if>
+        LIMIT ${limit}
+    </select>
+</mapper>

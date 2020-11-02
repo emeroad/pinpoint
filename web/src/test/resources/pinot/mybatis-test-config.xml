@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- default setting-->
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+
+        <!-- lazy loading-->
+        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="aggressiveLazyLoading" value="false" />
+
+<!--        <setting name="useGeneratedKeys" value="true" />-->
+
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+
+        <!-- don't need "REUSE" because preparedStatements are cached  at dbcp  -->
+        <setting name="defaultExecutorType" value="SIMPLE" />
+
+        <!--defaultQueryTiemout. unit is second -->
+<!--        <setting name="defaultStatementTimeout" value="5" />-->
+        <!--undersocre mapping of DB table  -->
+<!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo" alias="SystemMetricBo"/>
+        <typeAlias type="com.navercorp.pinpoint.common.server.metric.bo.TagBo" alias="TagBo"/>
+        <typeAlias type="com.navercorp.pinpoint.web.vo.Range" alias="Range"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="MANAGED"/>
+            <dataSource type="UNPOOLED"/>
+        </environment>
+    </environments>
+
+</configuration>

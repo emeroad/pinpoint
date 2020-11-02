@@ -343,6 +343,23 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.pinot</groupId>
+            <artifactId>pinot-java-client</artifactId>
+            <version>0.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pinot</groupId>
+            <artifactId>pinot-jdbc-client</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.calcite.avatica</groupId>
+            <artifactId>avatica-core</artifactId>
+            <version>1.17.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
