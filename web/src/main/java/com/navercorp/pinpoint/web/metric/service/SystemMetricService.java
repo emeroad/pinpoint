@@ -54,13 +54,12 @@ public class SystemMetricService {
         this.systemMetricMetadata = Objects.requireNonNull(systemMetricMetadata, "systemMetricMetadata");
     }
 
-    public List<SystemMetricBo> getSystemMetricBoList(String applicationName, String metricName, String fieldName, List<String> tags, Range range){
+    public List<SystemMetricBo> getSystemMetricBoList(String applicationName, String metricName, String fieldName, List<Tag> tagList, Range range){
         Objects.requireNonNull(applicationName, "applicationName");
         Objects.requireNonNull(metricName, "metricName");
         Objects.requireNonNull(fieldName, "fieldName");
-        Objects.requireNonNull(tags, "tags");
+        Objects.requireNonNull(tagList, "tagList");
 
-        List<Tag> tagList = SystemMetricUtils.parseTagBos(tags);
 
         QueryParameter queryParameter = new QueryParameter();
         queryParameter.setApplicationName(applicationName);
@@ -81,13 +80,12 @@ public class SystemMetricService {
         }
     }
 
-    public SystemMetricChart getSystemMetricChart(String applicationName, String metricName, String fieldName, List<String> tags, TimeWindow timeWindow) {
+    public SystemMetricChart getSystemMetricChart(String applicationName, String metricName, String fieldName, List<Tag> tagList, TimeWindow timeWindow) {
         Objects.requireNonNull(applicationName, "applicationName");
         Objects.requireNonNull(metricName, "metricName");
         Objects.requireNonNull(fieldName, "fieldName");
-        Objects.requireNonNull(tags, "tags");
+        Objects.requireNonNull(tagList, "tagList");
 
-        List<Tag> tagList = SystemMetricUtils.parseTagBos(tags);
 
         QueryParameter queryParameter = new QueryParameter();
         queryParameter.setApplicationName(applicationName);

@@ -34,10 +34,10 @@ import java.util.List;
 @Component
 public class PinotSystemMetricLongSerializer implements SystemMetricSerializer {
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     public PinotSystemMetricLongSerializer() {
-        objectMapper = new ObjectMapper();
+        this.objectMapper = new ObjectMapper();
     }
 
     @Override
