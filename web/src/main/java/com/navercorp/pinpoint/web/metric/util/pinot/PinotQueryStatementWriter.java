@@ -16,7 +16,7 @@
 
 package com.navercorp.pinpoint.web.metric.util.pinot;
 
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.util.QueryStatementWriter;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.Range;
@@ -75,8 +75,8 @@ public class PinotQueryStatementWriter extends QueryStatementWriter {
     }
 
     @Override
-    public String queryForSystemMetricBoList(String applicationName, String metricName, String fieldName, List<TagBo> tagBos, boolean isLong, Range range) {
-        basicStatementForSystemMetric(applicationName, metricName, fieldName, tagBos, isLong, range);
+    public String queryForSystemMetricBoList(String applicationName, String metricName, String fieldName, List<Tag> tags, boolean isLong, Range range) {
+        basicStatementForSystemMetric(applicationName, metricName, fieldName, tags, isLong, range);
 
         long expectedLimit = ((range.getTo() - range.getFrom())/10000 - 1) * 10;
         // by default, telegraf collect every 10sec = 10000ms
@@ -87,9 +87,9 @@ public class PinotQueryStatementWriter extends QueryStatementWriter {
     }
 
     @Override
-    public String queryForSampledSystemMetric(String applicationName, String metricName, String fieldName, List<TagBo> tagBos, boolean isLong, TimeWindow timeWindow) {
+    public String queryForSampledSystemMetric(String applicationName, String metricName, String fieldName, List<Tag> tags, boolean isLong, TimeWindow timeWindow) {
         Range range = timeWindow.getWindowRange();
-        basicStatementForSystemMetric(applicationName, metricName, fieldName, tagBos, isLong, range);
+        basicStatementForSystemMetric(applicationName, metricName, fieldName, tags, isLong, range);
 
         addSamplingCondition(timeWindow.getWindowSlotSize());
 
@@ -99,16 +99,16 @@ public class PinotQueryStatementWriter extends QueryStatementWriter {
         return build();
     }
 
-    private void basicStatementForSystemMetric(String applicationName, String metricName, String fieldName, List<TagBo> tagBos, boolean isLong, Range range) {
+    private void basicStatementForSystemMetric(String applicationName, String metricName, String fieldName, List<Tag> tags, boolean isLong, Range range) {
         String db = isLong? LONG_DB : DOUBLE_DB;
         buildBasicQuery(false, "*", db);
         addWhereStatement("applicationName", applicationName);
         addAndStatement("metricName", metricName);
         addAndStatement("fieldName", fieldName);
 
-        for (TagBo tagBo : tagBos) {
-            addAndStatement("tagName", tagBo.getTagName());
-            addAndStatement("tagValue", tagBo.getTagValue());
+        for (Tag tag : tags) {
+            addAndStatement("tagName", tag.getName());
+            addAndStatement("tagValue", tag.getValue());
         }
         addRangeStatement(range);
     }

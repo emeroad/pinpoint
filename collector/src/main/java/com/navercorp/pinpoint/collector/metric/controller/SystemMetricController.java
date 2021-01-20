@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.navercorp.pinpoint.collector.metric.service.SystemMetricService;
 import com.navercorp.pinpoint.collector.metric.vo.SystemMetricJsonDeserializer;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricMetadata;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -49,20 +49,22 @@ public class SystemMetricController {
 
     private final SystemMetricService systemMetricService;
     private final ObjectMapper objectMapper;
+    private final SystemMetricMetadata systemMetricMetadata;
 
-    public SystemMetricController(SystemMetricService systemMetricService){
-        this.systemMetricService = Objects.requireNonNull(systemMetricService, "systemMetricService");
-        objectMapper = new ObjectMapper();
+    public SystemMetricController(ObjectMapper objectMapper, SystemMetricService systemMetricService, SystemMetricMetadata systemMetricMetadata) {
+        Objects.requireNonNull(objectMapper, "objectMapper");
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(SystemMetricBo.class, new SystemMetricJsonDeserializer());
-        objectMapper.registerModule(module);
+        module.addDeserializer(SystemMetricBo.class, new SystemMetricJsonDeserializer(systemMetricMetadata));
+        this.objectMapper = objectMapper.registerModule(module);
 
+        this.systemMetricService = Objects.requireNonNull(systemMetricService, "systemMetricService");
+        this.systemMetricMetadata = Objects.requireNonNull(systemMetricMetadata, "systemMetricMetadata");
     }
 
     @RequestMapping(value = "/telegraf", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void saveSystemMetric(
-            @RequestHeader(value = "Application-Name")String applicationName,
+            @RequestHeader(value = "Application-Name") String applicationName,
             @RequestBody String body) throws JsonProcessingException {
 //        logger.info("controller time {}", System.currentTimeMillis());
 
@@ -70,7 +72,7 @@ public class SystemMetricController {
         try {
             JsonNode jsonNode = objectMapper.readTree(body).get("metrics");
             systemMetricBos = Arrays.asList(objectMapper.readValue(jsonNode.toString(), SystemMetricBo[].class));
-            SystemMetricMetadata.getMetadata().save();
+            systemMetricMetadata.save();
         } catch (IOException e) {
             systemMetricBos = null;
             logger.warn("System Metric Deserialization Failed: {}", e.getMessage());

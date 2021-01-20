@@ -23,7 +23,8 @@
                         com.navercorp.pinpoint.common.server.bo.codec,
                         com.navercorp.pinpoint.common.server.util,
                         com.navercorp.pinpoint.common.server.bo,
-                        com.navercorp.pinpoint.collector.metric" />
+                        com.navercorp.pinpoint.collector.metric,
+                        com.navercorp.pinpoint.common.server.metric" />
 
     <bean id="collectorPropertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">

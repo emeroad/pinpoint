@@ -29,7 +29,7 @@ import java.util.logging.Logger;
  */
 public class DataSourceDelegator implements DataSource {
 
-    DataSource delegate;
+    private final DataSource delegate;
 
     public DataSourceDelegator(DataSource dataSource) {
         this.delegate = Objects.requireNonNull(dataSource, "dataSource");

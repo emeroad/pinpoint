@@ -16,11 +16,10 @@
 
 package com.navercorp.pinpoint.web.metric.util.druid;
 
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.util.QueryStatementWriter;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.Range;
-import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +32,7 @@ import java.util.TimeZone;
 //@Component
 public class DruidQueryStatementWriter extends QueryStatementWriter {
     private final SimpleDateFormat format;
+
     public DruidQueryStatementWriter() {
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -66,14 +66,14 @@ public class DruidQueryStatementWriter extends QueryStatementWriter {
     }
 
     @Override
-    public String queryForSystemMetricBoList(String applicationName, String metricName, String fieldName, List<TagBo> tagBos, boolean isLong, Range range) {
+    public String queryForSystemMetricBoList(String applicationName, String metricName, String fieldName, List<Tag> tags, boolean isLong, Range range) {
         buildBasicQuery(false, "*", "\"system-metric\"");
         addWhereStatement("applicationName", applicationName);
         addAndStatement("metricName", metricName);
         addAndStatement("fieldName", fieldName);
 
-        for (TagBo tagBo : tagBos) {
-            addContainsStringStatement("tags", tagBo.toString());
+        for (Tag tag : tags) {
+            addContainsStringStatement("tags", tag.toString());
         }
 
         addRangeStatement(range);
@@ -82,7 +82,7 @@ public class DruidQueryStatementWriter extends QueryStatementWriter {
     }
 
     @Override
-    public String queryForSampledSystemMetric(String applicationName, String metricName, String fieldName, List<TagBo> tagBos, boolean isLong, TimeWindow timeWindow) {
+    public String queryForSampledSystemMetric(String applicationName, String metricName, String fieldName, List<Tag> tags, boolean isLong, TimeWindow timeWindow) {
         return null;
     }
 

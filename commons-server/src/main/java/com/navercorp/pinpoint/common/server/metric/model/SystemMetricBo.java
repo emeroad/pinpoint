@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.navercorp.pinpoint.common.server.metric.bo;
+package com.navercorp.pinpoint.common.server.metric.model;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,18 +22,19 @@ import java.util.Objects;
 /**
  * @author Hyunjoon Cho
  */
-public class SystemMetricBo<T extends Number> {
-    private String metricName;
-    private String fieldName;
-    private T fieldValue;
-    private List<TagBo> tagBos;
-    private long timestamp;
 
-    public SystemMetricBo(String metricName, String fieldName, T fieldValue, List<TagBo> tagBos, long timestamp) {
+public class SystemMetricBo<T extends Number> {
+    private final String metricName;
+    private final String fieldName;
+    private final T fieldValue;
+    private final List<Tag> tags;
+    private final long timestamp;
+
+    public SystemMetricBo(String metricName, String fieldName, T fieldValue, List<Tag> tags, long timestamp) {
         this.metricName = Objects.requireNonNull(metricName, "metricName");
         this.fieldName = Objects.requireNonNull(fieldName, "fieldName");
         this.fieldValue = Objects.requireNonNull(fieldValue, "fieldValue");
-        this.tagBos = tagBos;
+        this.tags = tags;
         this.timestamp = timestamp;
     }
 
@@ -41,41 +42,24 @@ public class SystemMetricBo<T extends Number> {
         return metricName;
     }
 
-    public void setMetricName(String metricName) {
-        this.metricName = metricName;
-    }
 
     public String getFieldName() {
         return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
     }
 
     public T getFieldValue() {
         return fieldValue;
     }
 
-    public void setFieldValue(T fieldValue) {
-        this.fieldValue = fieldValue;
+    public List<Tag> getTagBos() {
+        return tags;
     }
 
-    public List<TagBo> getTagBos() {
-        return tagBos;
-    }
-
-    public void setTagBos(List<TagBo> tagBos) {
-        this.tagBos = tagBos;
-    }
 
     public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
 
     @Override
     public String toString() {
@@ -83,7 +67,7 @@ public class SystemMetricBo<T extends Number> {
         sb.append("metric=").append(metricName);
         sb.append(", field=").append(fieldName);
         sb.append(", value=").append(fieldValue);
-        sb.append(", tags=").append(tagBos);
+        sb.append(", tags=").append(tags);
         sb.append(", timestamp=").append(timestamp);
         sb.append('}');
         return sb.toString();

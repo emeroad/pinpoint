@@ -16,8 +16,8 @@
 
 package com.navercorp.pinpoint.web.metric.mapper.druid;
 
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.util.SystemMetricUtils;
 
 import java.sql.ResultSet;
@@ -49,12 +49,12 @@ public class DruidSystemMetricMapper {
         return stringList;
     }
 
-    public List<TagBo> processTagBoList(ResultSet resultSet) throws SQLException {
-        List<TagBo> tagBoList = new ArrayList<>();
+    public List<Tag> processTagBoList(ResultSet resultSet) throws SQLException {
+        List<Tag> tagList = new ArrayList<>();
         while (resultSet.next()) {
-            tagBoList.add(parseTagBo(resultSet.getString(1)));
+            tagList.add(parseTagBo(resultSet.getString(1)));
         }
-        return tagBoList;
+        return tagList;
     }
 
     public List<SystemMetricBo> processSystemMetricBoList(ResultSet resultSet) throws SQLException {
@@ -78,25 +78,25 @@ public class DruidSystemMetricMapper {
         return systemMetricBoList;
     }
 
-    public List<TagBo> parseTagBoList(String tags) {
-        List<TagBo> tagBoList = new ArrayList<>();
+    public List<Tag> parseTagBoList(String tags) {
+        List<Tag> tagList = new ArrayList<>();
 
 //        logger.info("tags {}", tags);
         if (tags.startsWith("[")) {
             String[] tagStrings = SystemMetricUtils.parseMultiValueFieldList(tags);
             for (String tagString : tagStrings) {
-                tagBoList.add(parseTagBo(tagString));
+                tagList.add(parseTagBo(tagString));
             }
         } else {
-            tagBoList.add(parseTagBo(tags));
+            tagList.add(parseTagBo(tags));
         }
 
-        return tagBoList;
+        return tagList;
     }
 
-    public TagBo parseTagBo(String tagString) {
+    public Tag parseTagBo(String tagString) {
         String[] tag = tagString.split(":");
-        return new TagBo(tag[0], tag[1]);
+        return new Tag(tag[0], tag[1]);
     }
 
     public long parseTimestamp(String time) {

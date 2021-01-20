@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.navercorp.pinpoint.common.server.metric.bo;
+package com.navercorp.pinpoint.common.server.metric.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,56 +26,49 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author Hyunjoon Cho
  */
-public class SystemMetricMetadata {
+@Component
+public class SimpleSystemMetricMetadata implements SystemMetricMetadata {
     private final String METADATA_PATH = "/Users/user/pinpoint/commons-server/SystemMetricMetadata.txt";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final Map<String, MetricType> fieldTypeMap;
+    private final ConcurrentMap<String, MetricType> fieldTypeMap;
 
-    public enum MetricType {
-        LongCounter,
-        DoubleCounter
-    }
-
-    private static class Singleton {
-        private static final SystemMetricMetadata systemMetricMetadata = new SystemMetricMetadata();
-    }
-
-    private SystemMetricMetadata() {
+    private SimpleSystemMetricMetadata() {
         fieldTypeMap = loadOrCreate();
     }
 
-    private Map<String, MetricType> loadOrCreate() {
+    private ConcurrentMap<String, MetricType> loadOrCreate() {
         try {
             ObjectInputStream ois = new ObjectInputStream(
                     new FileInputStream(new File(METADATA_PATH)));
             Map<String, MetricType> map = (Map<String, MetricType>) ois.readObject();
             logger.info("Loaded Metadata");
-            return map;
+            return new ConcurrentHashMap<>(map);
         } catch (Exception e) {
             logger.info("Failed Loading Metadata");
-            return new HashMap<>();
+            return new ConcurrentHashMap<>();
         }
     }
 
-    public static SystemMetricMetadata getMetadata() {
-        return Singleton.systemMetricMetadata;
-    }
 
+    @Override
     public void put(String metricName, String fieldName, MetricType type) {
         fieldTypeMap.put(metricName.concat(fieldName), type);
     }
 
+    @Override
     public MetricType get(String metricName, String fieldName) {
         return fieldTypeMap.get(metricName.concat(fieldName));
     }
 
+    @Override
     public void save() {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(

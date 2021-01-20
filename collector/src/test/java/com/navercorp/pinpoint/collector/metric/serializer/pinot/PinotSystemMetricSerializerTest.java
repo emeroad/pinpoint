@@ -18,8 +18,8 @@ package com.navercorp.pinpoint.collector.metric.serializer.pinot;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.navercorp.pinpoint.collector.metric.serializer.SystemMetricSerializer;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -47,11 +47,11 @@ public class PinotSystemMetricSerializerTest {
 //        return new FieldBo("usage_user", 3.31F);
 //    }
 
-    public List<TagBo> createTagBoList(int num) {
-        List<TagBo> tagBos = new ArrayList<>();
-        tagBos.add(new TagBo("cpu", "cpu" + num));
-        tagBos.add(new TagBo("host", "localhost"));
+    public List<Tag> createTagBoList(int num) {
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("cpu", "cpu" + num));
+        tags.add(new Tag("host", "localhost"));
 
-        return tagBos;
+        return tags;
     }
 }

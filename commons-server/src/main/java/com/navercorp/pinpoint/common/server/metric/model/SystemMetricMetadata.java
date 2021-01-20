@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 NAVER Corp.
+ * Copyright 2021 NAVER Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package com.navercorp.pinpoint.web.metric.dao;
+package com.navercorp.pinpoint.common.server.metric.model;
 
-import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
-import com.navercorp.pinpoint.web.metric.vo.QueryParameter;
-import com.navercorp.pinpoint.web.metric.vo.SampledSystemMetric;
+public interface SystemMetricMetadata {
+    void put(String metricName, String fieldName, MetricType type);
 
-import java.util.List;
+    MetricType get(String metricName, String fieldName);
 
-/**
- * @author Hyunjoon Cho
- */
-public interface SystemMetricDao {
-    List<SystemMetricBo> getSystemMetricBo(QueryParameter queryParameter);
-    <T extends Number> List<SampledSystemMetric<T>> getSampledSystemMetric(QueryParameter queryParameter);
+    void save();
 }

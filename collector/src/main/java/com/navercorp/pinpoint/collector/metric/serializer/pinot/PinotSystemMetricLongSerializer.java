@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.navercorp.pinpoint.collector.metric.serializer.SystemMetricSerializer;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -56,10 +56,10 @@ public class PinotSystemMetricLongSerializer implements SystemMetricSerializer {
 
             ArrayNode tagName = node.putArray("tagName");
             ArrayNode tagValue = node.putArray("tagValue");
-            List<TagBo> tagBoList = systemMetricBo.getTagBos();
-            for (TagBo tagBo : tagBoList) {
-                tagName.add(tagBo.getTagName());
-                tagValue.add(tagBo.getTagValue());
+            List<Tag> tagList = systemMetricBo.getTagBos();
+            for (Tag tag : tagList) {
+                tagName.add(tag.getName());
+                tagValue.add(tag.getValue());
             }
 
             node.put("timestampInEpoch", systemMetricBo.getTimestamp());

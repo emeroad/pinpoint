@@ -16,25 +16,15 @@
 
 package com.navercorp.pinpoint.web.metric.dao.druid;
 
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
-import com.navercorp.pinpoint.web.metric.dao.SystemMetricDao;
 import com.navercorp.pinpoint.web.metric.mapper.druid.DruidSystemMetricMapper;
 import com.navercorp.pinpoint.web.metric.util.druid.DruidQueryStatementWriter;
-import com.navercorp.pinpoint.web.metric.vo.SampledSystemMetric;
-import com.navercorp.pinpoint.web.util.TimeWindow;
-import com.navercorp.pinpoint.web.vo.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 import javax.annotation.PreDestroy;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 

@@ -21,22 +21,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.navercorp.pinpoint.collector.metric.serializer.SystemMetricSerializer;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Hyunjoon Cho
  */
 @Component
 public class PinotSystemMetricDoubleSerializer implements SystemMetricSerializer {
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    public PinotSystemMetricDoubleSerializer() {
-        objectMapper = new ObjectMapper();
+    public PinotSystemMetricDoubleSerializer(ObjectMapper objectMapper) {
+        this.objectMapper = Objects.requireNonNull(objectMapper, "objectMapper");
     }
 
     @Override
@@ -55,10 +56,10 @@ public class PinotSystemMetricDoubleSerializer implements SystemMetricSerializer
 
             ArrayNode tagName = node.putArray("tagName");
             ArrayNode tagValue = node.putArray("tagValue");
-            List<TagBo> tagBoList = systemMetricBo.getTagBos();
-            for (TagBo tagBo : tagBoList) {
-                tagName.add(tagBo.getTagName());
-                tagValue.add(tagBo.getTagValue());
+            List<Tag> tagList = systemMetricBo.getTagBos();
+            for (Tag tag : tagList) {
+                tagName.add(tag.getName());
+                tagValue.add(tag.getValue());
             }
 
             node.put("timestampInEpoch", systemMetricBo.getTimestamp());
