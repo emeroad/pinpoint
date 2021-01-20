@@ -65,10 +65,8 @@ public class SystemMetricController {
             @RequestParam("fieldName") String fieldName,
             @RequestParam("tags") List<String> tags,
             @RequestParam("from") long from,
-            @RequestParam("to") long to,
-            @RequestParam(value = "interval", required = false)Integer interval){
-        final int minSamplingInterval = 10;
-        final long intervalMs = interval != null && interval > minSamplingInterval? interval * 1000L : minSamplingInterval * 1000L;
+            @RequestParam("to") long to){
+        final long intervalMs = 10000L;
         TimeWindowSampler sampler = new TimeWindowSampler() {
             @Override
             public long getWindowSize(Range range) {

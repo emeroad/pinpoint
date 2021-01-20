@@ -94,11 +94,6 @@ public class SystemMetricService {
         queryParameter.setTagBoList(tagList);
         queryParameter.setRange(timeWindow.getWindowRange());
 
-        long intervalMs = timeWindow.getWindowSlotSize();
-        if (intervalMs != 10000) {
-            queryParameter.setIntervalMs(intervalMs);
-        }
-
         MetricType metricType = systemMetricMetadata.get(metricName, fieldName);
         String chartName = metricName.concat("_").concat(fieldName);
 

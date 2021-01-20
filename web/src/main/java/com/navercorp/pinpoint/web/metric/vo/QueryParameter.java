@@ -29,21 +29,12 @@ import java.util.Map;
 public class QueryParameter {
     private static final int TAG_SET_COUNT = 10;
 
-    private String tableName;
     private String applicationName;
     private String metricName;
     private String fieldName;
     private List<Tag> tagList;
     private Range range;
-    private Long intervalMs;
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
+    private long limit;
 
     public void setApplicationName(String applicationName) {
         this.applicationName = applicationName;
@@ -79,38 +70,22 @@ public class QueryParameter {
 
     public void setRange(Range range) {
         this.range = range;
-
+        this.limit = estimateLimit(range);
     }
 
     public Range getRange() {
         return range;
     }
 
-    public void setIntervalMs(long intervalMs) {
-        this.intervalMs = intervalMs;
+    public void setLimit(long limit) {
+        this.limit = limit;
     }
 
-    public long getIntervalMs() {
-        return intervalMs;
+    public long getLimit() {
+        return limit;
     }
 
     private long estimateLimit(Range range) {
         return (range.getRange() / 10000 + 1) * TAG_SET_COUNT;
-    }
-
-    public Map toMap() {
-        Map parameters = new HashMap();
-        parameters.put("tableName", tableName);
-        parameters.put("applicationName", applicationName);
-        parameters.put("metricName", metricName);
-        parameters.put("fieldName", fieldName);
-        parameters.put("tags", tagList);
-        parameters.put("range", range);
-        parameters.put("limit", estimateLimit(range));
-        if (intervalMs != null) {
-            parameters.put("interval", intervalMs);
-        }
-
-        return parameters;
     }
 }
