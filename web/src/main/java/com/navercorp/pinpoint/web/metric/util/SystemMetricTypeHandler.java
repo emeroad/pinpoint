@@ -16,7 +16,7 @@
 
 package com.navercorp.pinpoint.web.metric.util;
 
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 

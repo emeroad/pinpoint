@@ -16,8 +16,8 @@
 
 package com.navercorp.pinpoint.web.metric.mapper.pinot;
 
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.mapper.SystemMetricMapper;
 import com.navercorp.pinpoint.web.metric.util.SystemMetricUtils;
 import com.navercorp.pinpoint.web.metric.vo.SampledSystemMetric;
@@ -39,10 +39,10 @@ public class PinotSystemMetricDoubleMapper implements SystemMetricMapper<Double>
 
         for (Map<String, String> result : resultMap) {
             double fieldValue = Double.parseDouble(result.get("fieldValue"));
-            List<TagBo> tagBoList = SystemMetricUtils.parseTagBos(result.get("tagName"), result.get("tagValue"));
+            List<Tag> tagList = SystemMetricUtils.parseTagBos(result.get("tagName"), result.get("tagValue"));
             long timestamp = Long.parseLong(result.get("timestampInEpoch"));
 
-            systemMetricBoList.add(new SystemMetricBo<>(metricName, fieldName, fieldValue, tagBoList, timestamp));
+            systemMetricBoList.add(new SystemMetricBo<>(metricName, fieldName, fieldValue, tagList, timestamp));
         }
 
         return systemMetricBoList;
@@ -56,9 +56,9 @@ public class PinotSystemMetricDoubleMapper implements SystemMetricMapper<Double>
             double fieldValue = Double.parseDouble(result.get("fieldValue"));
             long timestamp = Long.parseLong(result.get("timestampInEpoch"));
             SystemMetricPoint<Double> systemMetricPoint = new SystemMetricPoint<>(timestamp, fieldValue);
-            List<TagBo> tagBoList = SystemMetricUtils.parseTagBos(result.get("tagName"), result.get("tagValue"));
+            List<Tag> tagList = SystemMetricUtils.parseTagBos(result.get("tagName"), result.get("tagValue"));
 
-            sampledSystemMetricList.add(new SampledSystemMetric<>(systemMetricPoint, tagBoList.toString()));
+            sampledSystemMetricList.add(new SampledSystemMetric<>(systemMetricPoint, tagList.toString()));
         }
 
         return sampledSystemMetricList;

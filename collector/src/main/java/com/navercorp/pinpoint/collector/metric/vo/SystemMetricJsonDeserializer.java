@@ -21,9 +21,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricMetadata;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.MetricType;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricMetadata;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -32,16 +33,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Hyunjoon Cho
  */
 @Component
 public class SystemMetricJsonDeserializer extends JsonDeserializer<SystemMetricBo> {
-//    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    //    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final static long SEC_TO_MILLIS = 1000;
 
-    private SystemMetricMetadata systemMetricMetadata = SystemMetricMetadata.getMetadata();
+    private final SystemMetricMetadata systemMetricMetadata;
+
+    public SystemMetricJsonDeserializer(SystemMetricMetadata systemMetricMetadata) {
+        this.systemMetricMetadata = Objects.requireNonNull(systemMetricMetadata, "systemMetricMetadata");
+    }
 
     @Override
     public SystemMetricBo deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -53,7 +59,7 @@ public class SystemMetricJsonDeserializer extends JsonDeserializer<SystemMetricB
 
         String metricName = getTextNode(jsonNode, "name");
 
-        List<TagBo> tagBos = deserializeTags(jsonNode);
+        List<Tag> tags = deserializeTags(jsonNode);
         long timestamp = jsonNode.get("timestamp").asLong() * SEC_TO_MILLIS;
 
         JsonNode fieldsNode = jsonNode.get("fields");
@@ -65,13 +71,13 @@ public class SystemMetricJsonDeserializer extends JsonDeserializer<SystemMetricB
         String fieldType = getTextNode(fieldsNode, "fieldType");
 
         if (isInt(fieldType)) {
-            systemMetricMetadata.put(metricName, fieldName, SystemMetricMetadata.MetricType.LongCounter);
-            Long fieldValue =fieldsNode.get("fieldValue").asLong();
-            return new SystemMetricBo<>(metricName, fieldName, fieldValue, tagBos, timestamp);
+            systemMetricMetadata.put(metricName, fieldName, MetricType.LongCounter);
+            Long fieldValue = fieldsNode.get("fieldValue").asLong();
+            return new SystemMetricBo<>(metricName, fieldName, fieldValue, tags, timestamp);
         } else {
-            systemMetricMetadata.put(metricName, fieldName, SystemMetricMetadata.MetricType.DoubleCounter);
-            Double fieldValue =fieldsNode.get("fieldValue").asDouble();
-            return new SystemMetricBo<>(metricName, fieldName, fieldValue, tagBos, timestamp);
+            systemMetricMetadata.put(metricName, fieldName, MetricType.DoubleCounter);
+            Double fieldValue = fieldsNode.get("fieldValue").asDouble();
+            return new SystemMetricBo<>(metricName, fieldName, fieldValue, tags, timestamp);
         }
     }
 
@@ -82,24 +88,20 @@ public class SystemMetricJsonDeserializer extends JsonDeserializer<SystemMetricB
         return false;
     }
 
-    private List<TagBo> deserializeTags(JsonNode jsonNode) {
+    private List<Tag> deserializeTags(JsonNode jsonNode) {
         JsonNode tagsNode = jsonNode.get("tags");
         if (tagsNode == null || !tagsNode.isObject()) {
             return null;
         }
 
-        List<TagBo> tagBos = new ArrayList<>();
-        Iterator<Map.Entry<String,JsonNode>> tagIterator = tagsNode.fields();
+        List<Tag> tags = new ArrayList<>();
+        Iterator<Map.Entry<String, JsonNode>> tagIterator = tagsNode.fields();
         while (tagIterator.hasNext()) {
             Map.Entry<String, JsonNode> tag = tagIterator.next();
-            tagBos.add(new TagBo(tag.getKey(), tag.getValue().asText()));
+            tags.add(new Tag(tag.getKey(), tag.getValue().asText()));
         }
 
-        if (tagBos.isEmpty()) {
-            return null;
-        }
-
-        return tagBos;
+        return tags;
     }
 
     private String getTextNode(JsonNode jsonNode, String key) {

@@ -16,9 +16,10 @@
 
 package com.navercorp.pinpoint.web.metric.service;
 
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricMetadata;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.MetricType;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricMetadata;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.dao.pinot.PinotSystemMetricDoubleDao;
 import com.navercorp.pinpoint.web.metric.dao.pinot.PinotSystemMetricLongDao;
 import com.navercorp.pinpoint.web.metric.util.SystemMetricUtils;
@@ -39,34 +40,35 @@ import java.util.Objects;
  */
 @Service
 public class SystemMetricService {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final PinotSystemMetricLongDao pinotSystemMetricLongDao;
     private final PinotSystemMetricDoubleDao pinotSystemMetricDoubleDao;
     private final SystemMetricMetadata systemMetricMetadata;
 
     public SystemMetricService(PinotSystemMetricLongDao pinotSystemMetricLongDao,
-                               PinotSystemMetricDoubleDao pinotSystemMetricDoubleDao) {
+                               PinotSystemMetricDoubleDao pinotSystemMetricDoubleDao,
+                               SystemMetricMetadata systemMetricMetadata) {
         this.pinotSystemMetricLongDao = Objects.requireNonNull(pinotSystemMetricLongDao, "pinotSystemMetricLongDao");
         this.pinotSystemMetricDoubleDao = Objects.requireNonNull(pinotSystemMetricDoubleDao, "pinotSystemMetricDoubleDao");
-        this.systemMetricMetadata = SystemMetricMetadata.getMetadata();
+        this.systemMetricMetadata = Objects.requireNonNull(systemMetricMetadata, "systemMetricMetadata");
     }
 
-    public List<SystemMetricBo> getSystemMetricBoList(String applicationName, String metricName, String fieldName, List<String> tags, Range range){
+    public List<SystemMetricBo> getSystemMetricBoList(String applicationName, String metricName, String fieldName, List<Tag> tagList, Range range){
         Objects.requireNonNull(applicationName, "applicationName");
         Objects.requireNonNull(metricName, "metricName");
         Objects.requireNonNull(fieldName, "fieldName");
-        Objects.requireNonNull(tags, "tags");
+        Objects.requireNonNull(tagList, "tagList");
 
-        List<TagBo> tagBoList = SystemMetricUtils.parseTagBos(tags);
 
         QueryParameter queryParameter = new QueryParameter();
         queryParameter.setApplicationName(applicationName);
         queryParameter.setMetricName(metricName);
         queryParameter.setFieldName(fieldName);
-        queryParameter.setTagBoList(tagBoList);
+        queryParameter.setTagBoList(tagList);
         queryParameter.setRange(range);
 
-        SystemMetricMetadata.MetricType metricType = systemMetricMetadata.get(metricName, fieldName);
+        MetricType metricType = systemMetricMetadata.get(metricName, fieldName);
 
         switch (metricType) {
             case LongCounter:
@@ -78,19 +80,18 @@ public class SystemMetricService {
         }
     }
 
-    public SystemMetricChart getSystemMetricChart(String applicationName, String metricName, String fieldName, List<String> tags, TimeWindow timeWindow) {
+    public SystemMetricChart getSystemMetricChart(String applicationName, String metricName, String fieldName, List<Tag> tagList, TimeWindow timeWindow) {
         Objects.requireNonNull(applicationName, "applicationName");
         Objects.requireNonNull(metricName, "metricName");
         Objects.requireNonNull(fieldName, "fieldName");
-        Objects.requireNonNull(tags, "tags");
+        Objects.requireNonNull(tagList, "tagList");
 
-        List<TagBo> tagBoList = SystemMetricUtils.parseTagBos(tags);
 
         QueryParameter queryParameter = new QueryParameter();
         queryParameter.setApplicationName(applicationName);
         queryParameter.setMetricName(metricName);
         queryParameter.setFieldName(fieldName);
-        queryParameter.setTagBoList(tagBoList);
+        queryParameter.setTagBoList(tagList);
         queryParameter.setRange(timeWindow.getWindowRange());
 
         long intervalMs = timeWindow.getWindowSlotSize();
@@ -98,8 +99,8 @@ public class SystemMetricService {
             queryParameter.setIntervalMs(intervalMs);
         }
 
-        SystemMetricMetadata.MetricType metricType = systemMetricMetadata.get(metricName, fieldName);
-        String chartName = metricName.concat("_").concat(fieldName);
+        MetricType metricType = systemMetricMetadata.get(metricName, fieldName);
+        String chartName = getChartName(metricName, fieldName);
 
         switch (metricType) {
             case LongCounter:
@@ -111,5 +112,10 @@ public class SystemMetricService {
             default:
                 throw new RuntimeException("No Such Metric");
         }
+    }
+
+
+    private String getChartName(String metricName, String fieldName) {
+        return metricName  + "_" + fieldName;
     }
 }

@@ -16,7 +16,7 @@
 
 package com.navercorp.pinpoint.web.metric.util;
 
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,26 +26,26 @@ import java.util.List;
  */
 public class SystemMetricUtils {
 
-    public static List<TagBo> parseTagBos(List<String> tags) {
-        List<TagBo> tagBoList = new ArrayList<>();
+    public static List<Tag> parseTagBos(List<String> tags) {
+        List<Tag> tagList = new ArrayList<>();
         for (String tag : tags) {
             String[] tagSplit = tag.split(":");
-            tagBoList.add(new TagBo(tagSplit[0], tagSplit[1]));
+            tagList.add(new Tag(tagSplit[0], tagSplit[1]));
         }
-        return tagBoList;
+        return tagList;
     }
 
-    public static List<TagBo> parseTagBos(String tagNames, String tagValues) {
-        List<TagBo> tagBoList = new ArrayList<>();
+    public static List<Tag> parseTagBos(String tagNames, String tagValues) {
+        List<Tag> tagList = new ArrayList<>();
 
         String[] tagName = parseMultiValueFieldList(tagNames);
         String[] tagValue = parseMultiValueFieldList(tagValues);
 
         for (int j = 0; j < tagName.length; j++) {
-            tagBoList.add(new TagBo(tagName[j], tagValue[j]));
+            tagList.add(new Tag(tagName[j], tagValue[j]));
         }
 
-        return tagBoList;
+        return tagList;
     }
 
     public static String[] parseMultiValueFieldList(String string) {

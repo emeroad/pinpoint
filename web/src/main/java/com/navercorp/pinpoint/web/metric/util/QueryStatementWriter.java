@@ -16,7 +16,7 @@
 
 package com.navercorp.pinpoint.web.metric.util;
 
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.Range;
 
@@ -30,8 +30,8 @@ public abstract class QueryStatementWriter {
     public abstract String queryForMetricNameList(String applicationName, boolean isLong);
     public abstract String queryForFieldNameList(String applicationName, String metricName, boolean isLong);
     public abstract String queryForTagBoList(String applicationName, String metricName, String fieldName, boolean isLong, long timestamp);
-    public abstract String queryForSystemMetricBoList(String applicationName, String metricName, String fieldName, List<TagBo> tagBos, boolean isLong, Range range);
-    public abstract String queryForSampledSystemMetric(String applicationName, String metricName, String fieldName, List<TagBo> tagBos, boolean isLong, TimeWindow timeWindow);
+    public abstract String queryForSystemMetricBoList(String applicationName, String metricName, String fieldName, List<Tag> tags, boolean isLong, Range range);
+    public abstract String queryForSampledSystemMetric(String applicationName, String metricName, String fieldName, List<Tag> tags, boolean isLong, TimeWindow timeWindow);
 
     protected void buildBasicQuery(boolean distinct, String target, String db) {
         queryBuilder = new StringBuilder();

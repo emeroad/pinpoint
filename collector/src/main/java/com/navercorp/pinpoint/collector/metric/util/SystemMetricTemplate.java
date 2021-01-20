@@ -18,7 +18,7 @@ package com.navercorp.pinpoint.collector.metric.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.navercorp.pinpoint.collector.metric.serializer.SystemMetricSerializer;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

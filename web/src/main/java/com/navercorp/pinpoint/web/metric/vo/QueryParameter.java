@@ -16,7 +16,7 @@
 
 package com.navercorp.pinpoint.web.metric.vo;
 
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.vo.Range;
 
 import java.util.HashMap;
@@ -29,10 +29,13 @@ import java.util.Map;
 public class QueryParameter {
     private static final int TAG_SET_COUNT = 10;
 
-    String tableName, applicationName, metricName, fieldName;
-    List<TagBo> tagBoList;
-    Range range;
-    Long intervalMs;
+    private String tableName;
+    private String applicationName;
+    private String metricName;
+    private String fieldName;
+    private List<Tag> tagList;
+    private Range range;
+    private Long intervalMs;
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
@@ -66,12 +69,12 @@ public class QueryParameter {
         return fieldName;
     }
 
-    public void setTagBoList(List<TagBo> tagBoList) {
-        this.tagBoList = tagBoList;
+    public void setTagBoList(List<Tag> tagList) {
+        this.tagList = tagList;
     }
 
-    public List<TagBo> getTagBoList() {
-        return tagBoList;
+    public List<Tag> getTagBoList() {
+        return tagList;
     }
 
     public void setRange(Range range) {
@@ -101,7 +104,7 @@ public class QueryParameter {
         parameters.put("applicationName", applicationName);
         parameters.put("metricName", metricName);
         parameters.put("fieldName", fieldName);
-        parameters.put("tags", tagBoList);
+        parameters.put("tags", tagList);
         parameters.put("range", range);
         parameters.put("limit", estimateLimit(range));
         if (intervalMs != null) {

@@ -17,7 +17,7 @@
 package com.navercorp.pinpoint.collector.metric.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
 
 import java.util.List;
 

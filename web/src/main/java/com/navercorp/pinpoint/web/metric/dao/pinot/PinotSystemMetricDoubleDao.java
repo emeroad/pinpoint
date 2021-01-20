@@ -16,13 +16,12 @@
 
 package com.navercorp.pinpoint.web.metric.dao.pinot;
 
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
 import com.navercorp.pinpoint.web.metric.dao.SystemMetricDao;
 import com.navercorp.pinpoint.web.metric.mapper.pinot.PinotSystemMetricDoubleMapper;
 import com.navercorp.pinpoint.web.metric.util.SystemMetricTemplate;
 import com.navercorp.pinpoint.web.metric.vo.QueryParameter;
 import com.navercorp.pinpoint.web.metric.vo.SampledSystemMetric;
-import com.navercorp.pinpoint.web.util.TimeWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -36,6 +35,7 @@ import java.util.Objects;
 @Repository
 public class PinotSystemMetricDoubleDao implements SystemMetricDao {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private static final String DOUBLE_TABLE = "systemMetricDouble";
 
     private final SystemMetricTemplate systemMetricTemplate;

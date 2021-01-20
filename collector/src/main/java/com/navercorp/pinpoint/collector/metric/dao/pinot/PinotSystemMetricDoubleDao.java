@@ -21,7 +21,7 @@ import com.navercorp.pinpoint.collector.metric.dao.SystemMetricDao;
 import com.navercorp.pinpoint.collector.metric.serializer.pinot.PinotSystemMetricDoubleSerializer;
 import com.navercorp.pinpoint.collector.metric.util.SystemMetricTemplate;
 import com.navercorp.pinpoint.collector.metric.util.pinot.PinotKafkaDoubleProducer;
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

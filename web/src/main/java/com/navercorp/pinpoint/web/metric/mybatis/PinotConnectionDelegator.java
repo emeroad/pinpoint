@@ -43,7 +43,7 @@ import java.util.concurrent.Executor;
  */
 public class PinotConnectionDelegator implements Connection {
 
-    Connection delegate;
+    private final Connection delegate;
 
     public PinotConnectionDelegator(Connection pinotConnection) {
         this.delegate = Objects.requireNonNull(pinotConnection, "pinotConnection");

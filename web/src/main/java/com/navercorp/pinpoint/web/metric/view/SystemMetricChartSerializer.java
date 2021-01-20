@@ -32,6 +32,7 @@ import java.util.List;
  * @author Hyunjoon Cho
  */
 public class SystemMetricChartSerializer extends JsonSerializer<SystemMetricChart> {
+
     @Override
     public void serialize(SystemMetricChart systemMetricChart, JsonGenerator jgen, SerializerProvider serializers) throws IOException {
         SystemMetricChart.SystemMetricChartGroup systemMetricChartGroup = systemMetricChart.getSystemMetricChartGroup();

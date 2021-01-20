@@ -16,9 +16,10 @@
 
 package com.navercorp.pinpoint.web.metric.controller;
 
-import com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo;
-import com.navercorp.pinpoint.common.server.metric.bo.TagBo;
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.service.SystemMetricService;
+import com.navercorp.pinpoint.web.metric.util.SystemMetricUtils;
 import com.navercorp.pinpoint.web.metric.vo.chart.SystemMetricChart;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.util.TimeWindowSampler;
@@ -52,7 +53,8 @@ public class SystemMetricController {
             @RequestParam("tags") List<String> tags,
             @RequestParam("from") long from,
             @RequestParam("to") long to){
-        return systemMetricService.getSystemMetricBoList(applicationName, metricName, fieldName, tags, Range.newRange(from, to));
+        List<Tag> tagList = SystemMetricUtils.parseTagBos(tags);
+        return systemMetricService.getSystemMetricBoList(applicationName, metricName, fieldName, tagList, Range.newRange(from, to));
     }
 
     @RequestMapping(value = "/systemMetricChart")
@@ -74,6 +76,9 @@ public class SystemMetricController {
             }
         };
         TimeWindow timeWindow = new TimeWindow(Range.newRange(from, to), sampler);
-        return systemMetricService.getSystemMetricChart(applicationName, metricName, fieldName, tags, timeWindow);
+
+        List<Tag> tagList = SystemMetricUtils.parseTagBos(tags);
+
+        return systemMetricService.getSystemMetricChart(applicationName, metricName, fieldName, tagList, timeWindow);
     }
 }

@@ -26,8 +26,8 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.navercorp.pinpoint.common.server.metric.bo.SystemMetricBo" alias="SystemMetricBo"/>
-        <typeAlias type="com.navercorp.pinpoint.common.server.metric.bo.TagBo" alias="TagBo"/>
+        <typeAlias type="com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo" alias="SystemMetricBo"/>
+        <typeAlias type="com.navercorp.pinpoint.common.server.metric.model.Tag" alias="TagBo"/>
         <typeAlias type="com.navercorp.pinpoint.web.vo.Range" alias="Range"/>
     </typeAliases>
 
