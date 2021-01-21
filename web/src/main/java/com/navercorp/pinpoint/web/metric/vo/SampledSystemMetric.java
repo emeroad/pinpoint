@@ -16,9 +16,11 @@
 
 package com.navercorp.pinpoint.web.metric.vo;
 
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.vo.chart.SystemMetricPoint;
 import com.navercorp.pinpoint.web.vo.chart.Point;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,18 +36,18 @@ public class SampledSystemMetric<T extends Number> {
     };
 
     private final SystemMetricPoint<T> systemMetricPoint;
-    private final String tags;
+    private final List<Tag> tags;
 
-    public SampledSystemMetric (SystemMetricPoint<T> systemMetricPoint, String tags) {
-        this.tags = Objects.requireNonNull(tags, "tags");
+    public SampledSystemMetric(SystemMetricPoint<T> systemMetricPoint, List<Tag> tags) {
         this.systemMetricPoint = Objects.requireNonNull(systemMetricPoint, "systemMetricPoint");
+        this.tags = Objects.requireNonNull(tags, "tags");
     }
 
     public SystemMetricPoint<T> getPoint() {
         return systemMetricPoint;
     }
 
-    public String getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 

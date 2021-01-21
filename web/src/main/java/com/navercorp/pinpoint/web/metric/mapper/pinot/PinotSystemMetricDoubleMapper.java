@@ -58,7 +58,7 @@ public class PinotSystemMetricDoubleMapper implements SystemMetricMapper<Double>
             SystemMetricPoint<Double> systemMetricPoint = new SystemMetricPoint<>(timestamp, fieldValue);
             List<Tag> tagList = SystemMetricUtils.parseTagBos(result.get("tagName"), result.get("tagValue"));
 
-            sampledSystemMetricList.add(new SampledSystemMetric<>(systemMetricPoint, tagList.toString()));
+            sampledSystemMetricList.add(new SampledSystemMetric<>(systemMetricPoint, tagList));
         }
 
         return sampledSystemMetricList;

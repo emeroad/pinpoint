@@ -18,6 +18,7 @@ package com.navercorp.pinpoint.web.metric.vo.chart;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableList;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.view.SystemMetricChartSerializer;
 import com.navercorp.pinpoint.web.metric.vo.SampledSystemMetric;
 import com.navercorp.pinpoint.web.util.TimeWindow;
@@ -52,7 +53,7 @@ public class SystemMetricChart {
 
         private final TimeWindow timeWindow;
 
-        private final List<String> tagsList;
+        private final List<List<Tag>> tagsList;
 
         private final List<Chart<? extends Point>> charts;
 
@@ -60,22 +61,22 @@ public class SystemMetricChart {
             this.timeWindow = Objects.requireNonNull(timeWindow, "timeWindow");
             this.chartName = Objects.requireNonNull(chartName, "chartName");
 
-            Map<String, List<SampledSystemMetric<T>>> taggedSystemMetrics = sampledSystemMetrics.stream().collect(Collectors.groupingBy(metric -> metric.getTags()));
+            Map<List<Tag>, List<SampledSystemMetric<T>>> taggedSystemMetrics = sampledSystemMetrics.stream().collect(Collectors.groupingBy(SampledSystemMetric::getTags));
             this.tagsList = processTagList(taggedSystemMetrics);
             this.charts = processChartList(taggedSystemMetrics);
         }
 
-        private List<String> processTagList(Map<String, List<SampledSystemMetric<T>>> taggedSystemMetrics) {
-            ImmutableList.Builder<String> builder = ImmutableList.builder();
-            for (Map.Entry<String, List<SampledSystemMetric<T>>> entry : taggedSystemMetrics.entrySet()) {
+        private List<List<Tag>> processTagList(Map<List<Tag>, List<SampledSystemMetric<T>>> taggedSystemMetrics) {
+            ImmutableList.Builder<List<Tag>> builder = ImmutableList.builder();
+            for (Map.Entry<List<Tag>, List<SampledSystemMetric<T>>> entry : taggedSystemMetrics.entrySet()) {
                 builder.add(entry.getKey());
             }
             return builder.build();
         }
 
-        private List<Chart<? extends Point>> processChartList(Map<String, List<SampledSystemMetric<T>>> taggedSystemMetrics) {
+        private List<Chart<? extends Point>> processChartList(Map<List<Tag>, List<SampledSystemMetric<T>>> taggedSystemMetrics) {
             ImmutableList.Builder<Chart<? extends Point>> builder = ImmutableList.builder();
-            for (Map.Entry<String, List<SampledSystemMetric<T>>> entry : taggedSystemMetrics.entrySet()) {
+            for (Map.Entry<List<Tag>, List<SampledSystemMetric<T>>> entry : taggedSystemMetrics.entrySet()) {
                     builder.add(newChart(entry.getValue(), SampledSystemMetric::getPoint));
             }
 
@@ -95,7 +96,7 @@ public class SystemMetricChart {
             return timeWindow;
         }
 
-        public List<String> getTagsList() {
+        public List<List<Tag>> getTagsList() {
             return tagsList;
         }
 

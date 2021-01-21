@@ -34,8 +34,8 @@ import java.util.Properties;
 public class PinotKafkaDoubleProducer implements SystemMetricKafkaProducer {
     private Properties configs;
     private final KafkaProducer<String, String> kafkaProducer;
-    private static final String BOOTSTRAP_SERVERS = "10.113.84.89:19092";
-    private static final String TOPIC = "system-metric-double";
+    private final String BOOTSTRAP_SERVERS = "10.113.84.89:19092";
+    private final String TOPIC = "system-metric-double";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -59,8 +59,8 @@ public class PinotKafkaDoubleProducer implements SystemMetricKafkaProducer {
     @PreDestroy
     public void closeProducer() {
         if (kafkaProducer != null){
-            kafkaProducer.close();
             logger.info("Kafka Producer Closed");
+            kafkaProducer.close();
         }
     }
 }
