@@ -19,7 +19,7 @@ package com.navercorp.pinpoint.web.metric.controller;
 import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
 import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.service.SystemMetricService;
-import com.navercorp.pinpoint.web.metric.util.SystemMetricUtils;
+import com.navercorp.pinpoint.web.metric.util.TagParser;
 import com.navercorp.pinpoint.web.metric.vo.chart.SystemMetricChart;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.util.TimeWindowSampler;
@@ -39,6 +39,7 @@ import java.util.Objects;
 @RequestMapping(value = "/systemMetric")
 public class SystemMetricController {
     private final SystemMetricService systemMetricService;
+    private final TagParser tagParser = new TagParser();
 
     public SystemMetricController(SystemMetricService systemMetricService) {
         this.systemMetricService = Objects.requireNonNull(systemMetricService, "systemMetricService");
@@ -53,7 +54,7 @@ public class SystemMetricController {
             @RequestParam("tags") List<String> tags,
             @RequestParam("from") long from,
             @RequestParam("to") long to){
-        List<Tag> tagList = SystemMetricUtils.parseTags(tags);
+        List<Tag> tagList = tagParser.parseTags(tags);
         return systemMetricService.getSystemMetricBoList(applicationName, metricName, fieldName, tagList, Range.newRange(from, to));
     }
 
@@ -75,7 +76,7 @@ public class SystemMetricController {
         };
         TimeWindow timeWindow = new TimeWindow(Range.newRange(from, to), sampler);
 
-        List<Tag> tagList = SystemMetricUtils.parseTags(tags);
+        List<Tag> tagList = tagParser.parseTags(tags);
 
         return systemMetricService.getSystemMetricChart(applicationName, metricName, fieldName, tagList, timeWindow);
     }

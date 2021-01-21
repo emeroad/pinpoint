@@ -20,32 +20,43 @@ import com.navercorp.pinpoint.common.server.metric.model.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Hyunjoon Cho
  */
-public class SystemMetricUtils {
+public class TagParser {
+    public TagParser() {
+    }
 
-    public static List<Tag> parseTags(List<String> tagStringList) {
+    public List<Tag> parseTags(List<String> tags) {
+        Objects.requireNonNull(tags, "tags");
+
         List<Tag> tagList = new ArrayList<>();
-        for (String tagString : tagStringList) {
-            tagList.add(parseTag(tagString));
+        for (String tagString : tags) {
+            Tag tag = parseTag(tagString);
+            tagList.add(tag);
         }
         return tagList;
     }
 
-    public static List<Tag> parseTags(String tagStrings) {
+    public List<Tag> parseTags(String tagStrings) {
+        Objects.requireNonNull(tagStrings, "tagStrings");
+
         List<Tag> tagList = new ArrayList<>();
 
         String[] tagStrArray = parseMultiValueFieldList(tagStrings);
         for (String tagString : tagStrArray) {
-            tagList.add(parseTag(tagString));
+            Tag tag = parseTag(tagString);
+            tagList.add(tag);
         }
 
         return tagList;
     }
 
-    public static Tag parseTag(String tagString) {
+    public Tag parseTag(String tagString) {
+        Objects.requireNonNull(tagString, "tagString");
+
         String[] tag = tagString.split(":");
         return new Tag(tag[0], tag[1]);
     }
