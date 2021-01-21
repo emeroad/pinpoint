@@ -11,7 +11,7 @@
   },
   "tenants": {},
   "tableIndexConfig": {
-    "invertedIndexColumns": ["tagValue"],
+    "invertedIndexColumns": ["tags"],
     "sortedColumn": ["applicationName"],
     "rangeIndexColumns": ["timestampInEpoch"],
     "loadMode": "MMAP",

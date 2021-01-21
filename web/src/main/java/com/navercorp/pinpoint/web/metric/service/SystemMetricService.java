@@ -22,7 +22,6 @@ import com.navercorp.pinpoint.common.server.metric.model.SystemMetricMetadata;
 import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.dao.pinot.PinotSystemMetricDoubleDao;
 import com.navercorp.pinpoint.web.metric.dao.pinot.PinotSystemMetricLongDao;
-import com.navercorp.pinpoint.web.metric.util.SystemMetricUtils;
 import com.navercorp.pinpoint.web.metric.vo.QueryParameter;
 import com.navercorp.pinpoint.web.metric.vo.SampledSystemMetric;
 import com.navercorp.pinpoint.web.metric.vo.chart.SystemMetricChart;
@@ -65,7 +64,7 @@ public class SystemMetricService {
         queryParameter.setApplicationName(applicationName);
         queryParameter.setMetricName(metricName);
         queryParameter.setFieldName(fieldName);
-        queryParameter.setTagBoList(tagList);
+        queryParameter.setTagList(tagList);
         queryParameter.setRange(range);
 
         MetricType metricType = systemMetricMetadata.get(metricName, fieldName);
@@ -91,7 +90,7 @@ public class SystemMetricService {
         queryParameter.setApplicationName(applicationName);
         queryParameter.setMetricName(metricName);
         queryParameter.setFieldName(fieldName);
-        queryParameter.setTagBoList(tagList);
+        queryParameter.setTagList(tagList);
         queryParameter.setRange(timeWindow.getWindowRange());
 
         MetricType metricType = systemMetricMetadata.get(metricName, fieldName);

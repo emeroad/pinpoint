@@ -16,6 +16,7 @@
 
 package com.navercorp.pinpoint.web.metric;
 
+import com.navercorp.pinpoint.common.server.metric.model.SystemMetricBo;
 import com.navercorp.pinpoint.web.metric.dao.pinot.PinotSystemMetricLongDao;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -29,10 +30,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+
+import static org.yaml.snakeyaml.tokens.Token.ID.Tag;
 
 /**
  * @author Hyunjoon Cho
@@ -49,6 +54,18 @@ public class MybatisTest {
 
     @Autowired
     SqlSessionTemplate sqlSessionTemplate;
+
+    @Test
+    public void testType() throws NoSuchMethodException {
+        Class clazz = SystemMetricBo.class;
+        Constructor c = clazz.getConstructor(new Class[]{
+                String.class,
+                String.class,
+                Number.class,
+                List.class,
+                Long.TYPE
+        });
+    }
 
     @Test
     public void testDao() {

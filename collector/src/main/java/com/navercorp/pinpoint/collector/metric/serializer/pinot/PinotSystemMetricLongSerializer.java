@@ -54,12 +54,10 @@ public class PinotSystemMetricLongSerializer implements SystemMetricSerializer {
             node.put("fieldName", systemMetricBo.getFieldName());
             node.put("fieldValue", (Long) systemMetricBo.getFieldValue());
 
-            ArrayNode tagName = node.putArray("tagName");
-            ArrayNode tagValue = node.putArray("tagValue");
+            ArrayNode tags = node.putArray("tags");
             List<Tag> tagList = systemMetricBo.getTagBos();
             for (Tag tag : tagList) {
-                tagName.add(tag.getName());
-                tagValue.add(tag.getValue());
+                tags.add(tag.toString());
             }
 
             node.put("timestampInEpoch", systemMetricBo.getTimestamp());

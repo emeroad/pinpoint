@@ -26,29 +26,31 @@ import java.util.List;
  */
 public class SystemMetricUtils {
 
-    public static List<Tag> parseTagBos(List<String> tags) {
+    public static List<Tag> parseTags(List<String> tagStringList) {
         List<Tag> tagList = new ArrayList<>();
-        for (String tag : tags) {
-            String[] tagSplit = tag.split(":");
-            tagList.add(new Tag(tagSplit[0], tagSplit[1]));
+        for (String tagString : tagStringList) {
+            tagList.add(parseTag(tagString));
         }
         return tagList;
     }
 
-    public static List<Tag> parseTagBos(String tagNames, String tagValues) {
+    public static List<Tag> parseTags(String tagStrings) {
         List<Tag> tagList = new ArrayList<>();
 
-        String[] tagName = parseMultiValueFieldList(tagNames);
-        String[] tagValue = parseMultiValueFieldList(tagValues);
-
-        for (int j = 0; j < tagName.length; j++) {
-            tagList.add(new Tag(tagName[j], tagValue[j]));
+        String[] tagStrArray = parseMultiValueFieldList(tagStrings);
+        for (String tagString : tagStrArray) {
+            tagList.add(parseTag(tagString));
         }
 
         return tagList;
     }
 
-    public static String[] parseMultiValueFieldList(String string) {
+    public static Tag parseTag(String tagString) {
+        String[] tag = tagString.split(":");
+        return new Tag(tag[0], tag[1]);
+    }
+
+    private static String[] parseMultiValueFieldList(String string) {
         return string.substring(1, string.length() - 1).replace("\"", "").split(",");
     }
 }

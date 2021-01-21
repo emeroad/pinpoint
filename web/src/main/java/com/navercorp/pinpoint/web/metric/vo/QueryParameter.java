@@ -60,11 +60,11 @@ public class QueryParameter {
         return fieldName;
     }
 
-    public void setTagBoList(List<Tag> tagList) {
+    public void setTagList(List<Tag> tagList) {
         this.tagList = tagList;
     }
 
-    public List<Tag> getTagBoList() {
+    public List<Tag> getTagList() {
         return tagList;
     }
 

@@ -19,6 +19,7 @@ package com.navercorp.pinpoint.web.metric.view;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.navercorp.pinpoint.common.server.metric.model.Tag;
 import com.navercorp.pinpoint.web.metric.vo.chart.SystemMetricChart;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.chart.Chart;
@@ -42,7 +43,7 @@ public class SystemMetricChartSerializer extends JsonSerializer<SystemMetricChar
         TimeWindow timeWindow = systemMetricChartGroup.getTimeWindow();
         writeTimestamp(jgen, timeWindow);
 
-        List<String> tags = systemMetricChartGroup.getTagsList();
+        List<List<Tag>> tags = systemMetricChartGroup.getTagsList();
         List<Chart<? extends Point>> charts = systemMetricChartGroup.getCharts();
         writeCharts(jgen, tags, charts);
         jgen.writeEndObject();
@@ -56,14 +57,14 @@ public class SystemMetricChartSerializer extends JsonSerializer<SystemMetricChar
         jgen.writeObjectField("x", timestamps);
     }
 
-    private void writeCharts(JsonGenerator jgen, List<String> tags, List<Chart<? extends Point>> charts) throws IOException {
+    private void writeCharts(JsonGenerator jgen, List<List<Tag>> tagsList, List<Chart<? extends Point>> charts) throws IOException {
         jgen.writeFieldName("y");
         jgen.writeStartObject();
-        int l = tags.size();
-        for (int i = 0; i < l; i++) {
+        for (int i = 0; i < tagsList.size(); i++) {
             Chart<? extends Point> chart = charts.get(i);
             List<? extends Point> points = chart.getPoints();
-            jgen.writeObjectField(tags.get(i), points);
+            List<Tag> tags = tagsList.get(i);
+            jgen.writeObjectField(tags.toString(), points);
         }
         jgen.writeEndObject();
     }

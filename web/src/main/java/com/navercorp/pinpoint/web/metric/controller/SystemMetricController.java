@@ -53,7 +53,7 @@ public class SystemMetricController {
             @RequestParam("tags") List<String> tags,
             @RequestParam("from") long from,
             @RequestParam("to") long to){
-        List<Tag> tagList = SystemMetricUtils.parseTagBos(tags);
+        List<Tag> tagList = SystemMetricUtils.parseTags(tags);
         return systemMetricService.getSystemMetricBoList(applicationName, metricName, fieldName, tagList, Range.newRange(from, to));
     }
 
@@ -75,7 +75,7 @@ public class SystemMetricController {
         };
         TimeWindow timeWindow = new TimeWindow(Range.newRange(from, to), sampler);
 
-        List<Tag> tagList = SystemMetricUtils.parseTagBos(tags);
+        List<Tag> tagList = SystemMetricUtils.parseTags(tags);
 
         return systemMetricService.getSystemMetricChart(applicationName, metricName, fieldName, tagList, timeWindow);
     }
