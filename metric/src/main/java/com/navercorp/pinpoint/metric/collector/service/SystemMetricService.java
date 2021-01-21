@@ -1,0 +1,60 @@
+/*
+ * Copyright 2020 NAVER Corp.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.navercorp.pinpoint.metric.collector.service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.navercorp.pinpoint.metric.collector.dao.pinot.PinotSystemMetricDoubleDao;
+import com.navercorp.pinpoint.metric.collector.dao.pinot.PinotSystemMetricLongDao;
+
+import com.navercorp.pinpoint.common.util.Assert;
+import com.navercorp.pinpoint.metric.common.model.MetricType;
+import com.navercorp.pinpoint.metric.common.model.SystemMetricBo;
+import com.navercorp.pinpoint.metric.common.model.SystemMetricMetadata;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+/**
+ * @author Hyunjoon Cho
+ */
+@Service
+public class SystemMetricService {
+    private final PinotSystemMetricLongDao pinotSystemMetricLongDao;
+    private final PinotSystemMetricDoubleDao pinotSystemMetricDoubleDao;
+    private final SystemMetricMetadata systemMetricMetadata;
+
+    public SystemMetricService(PinotSystemMetricLongDao pinotSystemMetricLongDao,
+                               PinotSystemMetricDoubleDao pinotSystemMetricDoubleDao,
+                               SystemMetricMetadata systemMetricMetadata) {
+        this.pinotSystemMetricLongDao = Objects.requireNonNull(pinotSystemMetricLongDao, "pinotSystemMetricLongDao");
+        this.pinotSystemMetricDoubleDao = Objects.requireNonNull(pinotSystemMetricDoubleDao, "pinotSystemMetricDoubleDao");
+        this.systemMetricMetadata = Assert.requireNonNull(systemMetricMetadata, "systemMetricMetadata");
+    }
+
+    public void insert(String applicationName, List<SystemMetricBo> systemMetricBoList) throws JsonProcessingException {
+        Map<MetricType, List<SystemMetricBo>> groupedSystemMetricBos = groupSystemMetric(systemMetricBoList);
+        pinotSystemMetricLongDao.insert(applicationName, groupedSystemMetricBos.get(MetricType.LongCounter));
+        pinotSystemMetricDoubleDao.insert(applicationName, groupedSystemMetricBos.get(MetricType.DoubleCounter));
+    }
+
+    public Map<MetricType, List<SystemMetricBo>> groupSystemMetric (List<SystemMetricBo> systemMetricBos) {
+        return systemMetricBos.stream().collect(Collectors.groupingBy(metric -> systemMetricMetadata.get(metric.getMetricName(), metric.getFieldName())));
+    }
+}
