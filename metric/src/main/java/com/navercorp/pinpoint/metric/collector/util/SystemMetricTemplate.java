@@ -21,6 +21,7 @@ import com.navercorp.pinpoint.metric.collector.serializer.SystemMetricSerializer
 import com.navercorp.pinpoint.metric.common.model.SystemMetricBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,11 +33,10 @@ import java.util.List;
 public class SystemMetricTemplate {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public SystemMetricTemplate(){
-    }
-
-    public void saveMetric(String applicationName, List<SystemMetricBo> systemMetricBoList, SystemMetricSerializer systemMetricSerializer, SystemMetricKafkaProducer systemMetricKafkaProducer) throws JsonProcessingException {
+    public void saveMetric(String applicationName, List<SystemMetricBo> systemMetricBoList, SystemMetricSerializer systemMetricSerializer, KafkaTemplate<String, String> kafkaTemplate) throws JsonProcessingException {
         List<String> serializedSystemMetricBos = systemMetricSerializer.serialize(applicationName, systemMetricBoList);
-        systemMetricKafkaProducer.pushData(serializedSystemMetricBos);
+        for (String serializedSystemMetricBo : serializedSystemMetricBos) {
+            kafkaTemplate.sendDefault(serializedSystemMetricBo);
+        }
     }
 }

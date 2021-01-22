@@ -51,7 +51,9 @@ public class SystemMetricController {
     private final ObjectMapper objectMapper;
     private final SystemMetricMetadata systemMetricMetadata;
 
-    public SystemMetricController(ObjectMapper objectMapper, SystemMetricService systemMetricService, SystemMetricMetadata systemMetricMetadata) {
+    public SystemMetricController(ObjectMapper objectMapper,
+                                  SystemMetricService systemMetricService,
+                                  SystemMetricMetadata systemMetricMetadata) {
         Objects.requireNonNull(objectMapper, "objectMapper");
         SimpleModule module = new SimpleModule();
         module.addDeserializer(SystemMetricBo.class, new SystemMetricJsonDeserializer(systemMetricMetadata));

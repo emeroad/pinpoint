@@ -20,8 +20,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.navercorp.pinpoint.metric.collector.dao.SystemMetricDao;
 import com.navercorp.pinpoint.metric.collector.serializer.pinot.PinotSystemMetricLongSerializer;
 import com.navercorp.pinpoint.metric.collector.util.SystemMetricTemplate;
-import com.navercorp.pinpoint.metric.collector.util.pinot.PinotKafkaLongProducer;
 import com.navercorp.pinpoint.metric.common.model.SystemMetricBo;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,18 +33,18 @@ import java.util.Objects;
 @Repository
 public class PinotSystemMetricLongDao implements SystemMetricDao {
     private final PinotSystemMetricLongSerializer pinotSystemMetricLongSerializer;
-    private final PinotKafkaLongProducer pinotKafkaLongProducer;
+    private final KafkaTemplate<String, String> kafkaLongTemplate;
     private final SystemMetricTemplate systemMetricTemplate;
 
     public PinotSystemMetricLongDao(PinotSystemMetricLongSerializer pinotSystemMetricLongSerializer,
-                                    PinotKafkaLongProducer pinotKafkaLongProducer,
+                                    KafkaTemplate<String, String> kafkaLongTemplate,
                                     SystemMetricTemplate systemMetricTemplate) {
         this.pinotSystemMetricLongSerializer = Objects.requireNonNull(pinotSystemMetricLongSerializer, "pinotSystemMetricLongSerializer");
-        this.pinotKafkaLongProducer = Objects.requireNonNull(pinotKafkaLongProducer, "pinotKafkaLongProducer");
+        this.kafkaLongTemplate = Objects.requireNonNull(kafkaLongTemplate, "kafkaLongTemplate");
         this.systemMetricTemplate = Objects.requireNonNull(systemMetricTemplate, "systemMetricTemplate");
     }
     @Override
     public void insert(String applicationName, List<SystemMetricBo> systemMetricBos) throws JsonProcessingException{
-        systemMetricTemplate.saveMetric(applicationName, systemMetricBos, pinotSystemMetricLongSerializer, pinotKafkaLongProducer);
+        systemMetricTemplate.saveMetric(applicationName, systemMetricBos, pinotSystemMetricLongSerializer, kafkaLongTemplate);
     }
 }

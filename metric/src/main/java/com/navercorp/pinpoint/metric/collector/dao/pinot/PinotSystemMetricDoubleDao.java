@@ -20,8 +20,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.navercorp.pinpoint.metric.collector.dao.SystemMetricDao;
 import com.navercorp.pinpoint.metric.collector.serializer.pinot.PinotSystemMetricDoubleSerializer;
 import com.navercorp.pinpoint.metric.collector.util.SystemMetricTemplate;
-import com.navercorp.pinpoint.metric.collector.util.pinot.PinotKafkaDoubleProducer;
 import com.navercorp.pinpoint.metric.common.model.SystemMetricBo;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,18 +33,18 @@ import java.util.Objects;
 @Repository
 public class PinotSystemMetricDoubleDao implements SystemMetricDao {
     private final PinotSystemMetricDoubleSerializer pinotSystemMetricDoubleSerializer;
-    private final PinotKafkaDoubleProducer pinotKafkaDoubleProducer;
+    private final KafkaTemplate<String, String> kafkaDoubleTemplate;
     private final SystemMetricTemplate systemMetricTemplate;
 
     public PinotSystemMetricDoubleDao(PinotSystemMetricDoubleSerializer pinotSystemMetricDoubleSerializer,
-                                    PinotKafkaDoubleProducer pinotKafkaDoubleProducer,
+                                    KafkaTemplate<String, String> kafkaDoubleTemplate,
                                     SystemMetricTemplate systemMetricTemplate) {
         this.pinotSystemMetricDoubleSerializer = Objects.requireNonNull(pinotSystemMetricDoubleSerializer, "pinotSystemMetricDoubleSerializer");
-        this.pinotKafkaDoubleProducer = Objects.requireNonNull(pinotKafkaDoubleProducer, "pinotKafkaDoubleProducer");
+        this.kafkaDoubleTemplate = Objects.requireNonNull(kafkaDoubleTemplate, "kafkaDoubleTemplate");
         this.systemMetricTemplate = Objects.requireNonNull(systemMetricTemplate, "systemMetricTemplate");
     }
     @Override
     public void insert(String applicationName, List<SystemMetricBo> systemMetricBos) throws JsonProcessingException {
-        systemMetricTemplate.saveMetric(applicationName, systemMetricBos, pinotSystemMetricDoubleSerializer, pinotKafkaDoubleProducer);
+        systemMetricTemplate.saveMetric(applicationName, systemMetricBos, pinotSystemMetricDoubleSerializer, kafkaDoubleTemplate);
     }
 }
