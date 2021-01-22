@@ -16,15 +16,13 @@
                                          com.navercorp.pinpoint.web.view,
                                          com.navercorp.pinpoint.web.applicationmap,
                                          com.navercorp.pinpoint.common.server.bo,
-                                         com.navercorp.pinpoint.common.server.util,
-                                         com.navercorp.pinpoint.web.metric" />
+                                         com.navercorp.pinpoint.common.server.util" />
 
     <bean id="webPropertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:hbase-root.properties</value>
                 <value>classpath:jdbc-root.properties</value>
-                <value>classpath:/pinot/jdbc-pinot.properties</value>
                 <value>classpath:pinpoint-web-root.properties</value>
                 <value>classpath:batch-root.properties</value>
                 <!-- override configuration -->
@@ -53,8 +51,6 @@
     <import resource="classpath:applicationContext-web-cache.xml" />
     <import resource="classpath:applicationContext-web-websocket.xml" />
     <import resource="classpath:applicationContext-web-namespace.xml"/>
-    <import resource="classpath:/pinot/applicationContext-web-pinot-datasource.xml"/>
-    <import resource="classpath:/pinot/applicationContext-web-pinot-dao-config.xml"/>
 
     <bean id="jsonObjectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"/>
 
