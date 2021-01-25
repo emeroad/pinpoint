@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.navercorp.pinpoint.metric.collector.service.SystemMetricService;
-import com.navercorp.pinpoint.metric.collector.vo.SystemMetricJsonDeserializer;
+import com.navercorp.pinpoint.metric.collector.model.SystemMetricJsonDeserializer;
 import com.navercorp.pinpoint.metric.common.model.SystemMetricBo;
 import com.navercorp.pinpoint.metric.common.model.SystemMetricMetadata;
 import org.slf4j.Logger;

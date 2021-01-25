@@ -18,8 +18,8 @@ package com.navercorp.pinpoint.metric.web.dao.pinot;
 
 import com.navercorp.pinpoint.metric.common.model.SystemMetricBo;
 import com.navercorp.pinpoint.metric.web.dao.SystemMetricDao;
-import com.navercorp.pinpoint.metric.web.vo.QueryParameter;
-import com.navercorp.pinpoint.metric.web.vo.SampledSystemMetric;
+import com.navercorp.pinpoint.metric.web.model.QueryParameter;
+import com.navercorp.pinpoint.metric.web.model.SampledSystemMetric;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -21,9 +21,9 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.navercorp.pinpoint.metric.common.model.Tag;
 import com.navercorp.pinpoint.metric.web.util.TimeWindow;
-import com.navercorp.pinpoint.metric.web.vo.chart.Chart;
-import com.navercorp.pinpoint.metric.web.vo.chart.Point;
-import com.navercorp.pinpoint.metric.web.vo.chart.SystemMetricChart;
+import com.navercorp.pinpoint.metric.web.model.chart.Chart;
+import com.navercorp.pinpoint.metric.web.model.chart.Point;
+import com.navercorp.pinpoint.metric.web.model.chart.SystemMetricChart;
 
 import java.io.IOException;
 import java.util.ArrayList;

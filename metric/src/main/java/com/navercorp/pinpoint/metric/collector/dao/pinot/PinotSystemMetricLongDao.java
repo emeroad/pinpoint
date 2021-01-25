@@ -19,8 +19,8 @@ package com.navercorp.pinpoint.metric.collector.dao.pinot;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.navercorp.pinpoint.metric.collector.dao.SystemMetricDao;
 import com.navercorp.pinpoint.metric.collector.serializer.pinot.PinotSystemMetricLongSerializer;
-import com.navercorp.pinpoint.metric.collector.util.SystemMetricTemplate;
 import com.navercorp.pinpoint.metric.common.model.SystemMetricBo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -32,19 +32,30 @@ import java.util.Objects;
  */
 @Repository
 public class PinotSystemMetricLongDao implements SystemMetricDao {
+
     private final PinotSystemMetricLongSerializer pinotSystemMetricLongSerializer;
     private final KafkaTemplate<String, String> kafkaLongTemplate;
-    private final SystemMetricTemplate systemMetricTemplate;
+    private final String topic;
 
     public PinotSystemMetricLongDao(PinotSystemMetricLongSerializer pinotSystemMetricLongSerializer,
                                     KafkaTemplate<String, String> kafkaLongTemplate,
-                                    SystemMetricTemplate systemMetricTemplate) {
+                                    @Value("${kafka.long.topic}") String topic) {
         this.pinotSystemMetricLongSerializer = Objects.requireNonNull(pinotSystemMetricLongSerializer, "pinotSystemMetricLongSerializer");
         this.kafkaLongTemplate = Objects.requireNonNull(kafkaLongTemplate, "kafkaLongTemplate");
-        this.systemMetricTemplate = Objects.requireNonNull(systemMetricTemplate, "systemMetricTemplate");
+        this.topic = Objects.requireNonNull(topic, "topic");
     }
     @Override
     public void insert(String applicationName, List<SystemMetricBo> systemMetricBos) throws JsonProcessingException{
-        systemMetricTemplate.saveMetric(applicationName, systemMetricBos, pinotSystemMetricLongSerializer, kafkaLongTemplate);
+        Objects.requireNonNull(applicationName, "applicationName");
+        Objects.requireNonNull(systemMetricBos, "systemMetricBos");
+
+        List<String> serializedSystemMetricBos = pinotSystemMetricLongSerializer.serialize(applicationName, systemMetricBos);
+        try {
+            for (String serializedSystemMetricBo : serializedSystemMetricBos) {
+                kafkaLongTemplate.send(topic, serializedSystemMetricBo);
+            }
+        } finally {
+            this.kafkaLongTemplate.flush();
+        }
     }
 }

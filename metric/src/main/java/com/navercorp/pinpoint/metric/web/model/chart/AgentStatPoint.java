@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.navercorp.pinpoint.metric.web.vo.chart;
+package com.navercorp.pinpoint.metric.web.model.chart;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

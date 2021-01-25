@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.navercorp.pinpoint.metric.web.vo;
+package com.navercorp.pinpoint.metric.web.model;
 
 
 import com.navercorp.pinpoint.metric.common.model.Tag;
