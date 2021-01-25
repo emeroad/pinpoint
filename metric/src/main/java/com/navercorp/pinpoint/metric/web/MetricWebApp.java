@@ -1,11 +1,9 @@
 package com.navercorp.pinpoint.metric.web;
 
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Profile;
 
-//@SpringBootConfiguration
-//@EnableAutoConfiguration
 @ImportResource({ "classpath:/pinot-web/applicationContext-web-pinot.xml"})
+@Profile("metric")
 public class MetricWebApp {
 }

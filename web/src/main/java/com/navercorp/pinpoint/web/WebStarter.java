@@ -20,6 +20,10 @@ public class WebStarter {
         builder.sources(sources);
     }
 
+    public void sibling(Class<?>... childs) {
+        this.builder.sibling(childs);
+    }
+
     public void child(Class<?>... childs) {
         this.builder.child(childs);
     }

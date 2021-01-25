@@ -12,7 +12,8 @@
     <context:annotation-config/>
 
     <context:component-scan base-package="com.navercorp.pinpoint.metric.collector,
-                                         com.navercorp.pinpoint.common.server.util" />
+                                         com.navercorp.pinpoint.common.server.util,
+                                         com.navercorp.pinpoint.metric.common" />
 
     <import resource="classpath:pinot-collector/applicationContext-collector-pinot-kafka.xml"/>
 

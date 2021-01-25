@@ -1,7 +1,5 @@
 package com.navercorp.pinpoint.metric.collector;
 
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Profile;
 

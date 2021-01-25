@@ -1,7 +1,7 @@
 package com.navercorp.pinpoint.web;
 
 import com.navercorp.pinpoint.common.server.util.ServerBootLogger;
-//import com.navercorp.pinpoint.metric.web.MetricWebApp;
+import com.navercorp.pinpoint.metric.web.MetricWebApp;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
@@ -23,8 +23,7 @@ public class WebApp {
 
     public static void main(String[] args) {
         try {
-            WebStarter starter = new WebStarter(WebApp.class, WebMvcConfig.class);
-//            starter.child(MetricWebApp.class);
+            WebStarter starter = new WebStarter(WebApp.class, WebMvcConfig.class, MetricWebApp.class);
             starter.start(args);
         } catch (Exception exception) {
             logger.error("[WebApp] could not launch app.", exception);
