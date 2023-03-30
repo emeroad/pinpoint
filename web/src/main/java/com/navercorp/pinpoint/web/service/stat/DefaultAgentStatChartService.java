@@ -16,7 +16,7 @@
 
 package com.navercorp.pinpoint.web.service.stat;
 
-import com.navercorp.pinpoint.web.dao.SampledAgentStatDao;
+import com.navercorp.pinpoint.web.inspector.dao.SampledAgentStatDao;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.stat.SampledAgentStatDataPoint;
 import com.navercorp.pinpoint.web.vo.stat.chart.StatChart;

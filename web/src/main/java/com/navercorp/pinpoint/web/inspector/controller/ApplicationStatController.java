@@ -1,7 +1,8 @@
-package com.navercorp.pinpoint.web.authorization.controller;
+package com.navercorp.pinpoint.web.inspector.controller;
 
 import com.navercorp.pinpoint.common.server.util.time.Range;
-import com.navercorp.pinpoint.web.service.appmetric.ApplicationStatChartService;
+import com.navercorp.pinpoint.web.authorization.controller.ChartTypeMappingBuilder;
+import com.navercorp.pinpoint.web.inspector.service.ApplicationStatChartService;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.util.TimeWindowSlotCentricSampler;
 import com.navercorp.pinpoint.web.vo.stat.chart.StatChart;

@@ -1,11 +1,11 @@
-package com.navercorp.pinpoint.web.dao.hbase.stat;
+package com.navercorp.pinpoint.web.inspector.hbase;
 
 import com.navercorp.pinpoint.common.hbase.ResultsExtractor;
 import com.navercorp.pinpoint.common.server.bo.codec.stat.AgentStatDecoder;
 import com.navercorp.pinpoint.common.server.bo.stat.AgentStatDataPoint;
 import com.navercorp.pinpoint.common.server.bo.stat.AgentStatType;
 import com.navercorp.pinpoint.common.server.util.time.Range;
-import com.navercorp.pinpoint.web.dao.SampledAgentStatDao;
+import com.navercorp.pinpoint.web.inspector.dao.SampledAgentStatDao;
 import com.navercorp.pinpoint.web.mapper.stat.AgentStatMapperV2;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.stat.SampledAgentStatDataPoint;

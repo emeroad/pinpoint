@@ -1,7 +1,8 @@
-package com.navercorp.pinpoint.web.service.appmetric;
+package com.navercorp.pinpoint.web.inspector.config;
 
-import com.navercorp.pinpoint.web.dao.appmetric.ApplicationMetricDao;
-
+import com.navercorp.pinpoint.web.inspector.dao.ApplicationMetricDao;
+import com.navercorp.pinpoint.web.inspector.service.ApplicationStatChartService;
+import com.navercorp.pinpoint.web.inspector.service.DefaultApplicationStatChartService;
 import com.navercorp.pinpoint.web.vo.stat.AggreJoinActiveTraceBo;
 import com.navercorp.pinpoint.web.vo.stat.AggreJoinCpuLoadBo;
 import com.navercorp.pinpoint.web.vo.stat.AggreJoinDirectBufferBo;

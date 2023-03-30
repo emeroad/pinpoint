@@ -1,6 +1,6 @@
-package com.navercorp.pinpoint.web.service.appmetric;
+package com.navercorp.pinpoint.web.inspector.service;
 
-import com.navercorp.pinpoint.web.dao.appmetric.ApplicationMetricDao;
+import com.navercorp.pinpoint.web.inspector.dao.ApplicationMetricDao;
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.stat.AggregationStatData;
 import com.navercorp.pinpoint.web.vo.stat.chart.StatChart;

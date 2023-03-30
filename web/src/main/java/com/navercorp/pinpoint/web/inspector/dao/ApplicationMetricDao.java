@@ -1,4 +1,4 @@
-package com.navercorp.pinpoint.web.dao.appmetric;
+package com.navercorp.pinpoint.web.inspector.dao;
 
 import com.navercorp.pinpoint.web.service.stat.ChartTypeSupport;
 import com.navercorp.pinpoint.web.util.TimeWindow;

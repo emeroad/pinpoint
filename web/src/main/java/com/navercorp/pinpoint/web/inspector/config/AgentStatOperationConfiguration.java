@@ -1,10 +1,10 @@
-package com.navercorp.pinpoint.web.dao.hbase.config;
+package com.navercorp.pinpoint.web.inspector.config;
 
 import com.navercorp.pinpoint.common.hbase.HbaseColumnFamily;
 import com.navercorp.pinpoint.common.hbase.HbaseOperations2;
 import com.navercorp.pinpoint.common.hbase.TableNameProvider;
 import com.navercorp.pinpoint.common.server.bo.serializer.stat.AgentStatHbaseOperationFactory;
-import com.navercorp.pinpoint.web.dao.hbase.stat.HbaseAgentStatDaoOperations;
+import com.navercorp.pinpoint.web.inspector.hbase.HbaseAgentStatDaoOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

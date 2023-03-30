@@ -1,4 +1,4 @@
-package com.navercorp.pinpoint.web.dao.hbase.config;
+package com.navercorp.pinpoint.web.inspector.config;
 
 import com.navercorp.pinpoint.common.server.bo.codec.stat.AgentStatDecoder;
 import com.navercorp.pinpoint.common.server.bo.stat.ActiveTraceBo;
@@ -15,9 +15,9 @@ import com.navercorp.pinpoint.common.server.bo.stat.LoadedClassBo;
 import com.navercorp.pinpoint.common.server.bo.stat.ResponseTimeBo;
 import com.navercorp.pinpoint.common.server.bo.stat.TotalThreadCountBo;
 import com.navercorp.pinpoint.common.server.bo.stat.TransactionBo;
-import com.navercorp.pinpoint.web.dao.hbase.stat.DefaultAgentStatDao;
-import com.navercorp.pinpoint.web.dao.hbase.stat.HbaseAgentStatDaoOperations;
 import com.navercorp.pinpoint.web.dao.stat.AgentStatDao;
+import com.navercorp.pinpoint.web.inspector.hbase.DefaultAgentStatDao;
+import com.navercorp.pinpoint.web.inspector.hbase.HbaseAgentStatDaoOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

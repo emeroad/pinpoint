@@ -1,4 +1,4 @@
-package com.navercorp.pinpoint.web.dao.hbase.config;
+package com.navercorp.pinpoint.web.inspector.config;
 
 import com.navercorp.pinpoint.common.server.bo.codec.stat.AgentStatDecoder;
 import com.navercorp.pinpoint.common.server.bo.stat.ActiveTraceBo;
@@ -16,12 +16,12 @@ import com.navercorp.pinpoint.common.server.bo.stat.LoadedClassBo;
 import com.navercorp.pinpoint.common.server.bo.stat.ResponseTimeBo;
 import com.navercorp.pinpoint.common.server.bo.stat.TotalThreadCountBo;
 import com.navercorp.pinpoint.common.server.bo.stat.TransactionBo;
-import com.navercorp.pinpoint.web.dao.SampledAgentStatDao;
-import com.navercorp.pinpoint.web.dao.hbase.stat.DefaultSampledAgentStatDao;
-import com.navercorp.pinpoint.web.dao.hbase.stat.HbaseAgentStatDaoOperations;
-import com.navercorp.pinpoint.web.dao.hbase.stat.HbaseSampledDataSourceDao;
-import com.navercorp.pinpoint.web.dao.hbase.stat.SampledAgentStatResultExtractorSupplier;
-import com.navercorp.pinpoint.web.dao.hbase.stat.SampledResultsExtractorSupplier;
+import com.navercorp.pinpoint.web.inspector.dao.SampledAgentStatDao;
+import com.navercorp.pinpoint.web.inspector.hbase.DefaultSampledAgentStatDao;
+import com.navercorp.pinpoint.web.inspector.hbase.HbaseAgentStatDaoOperations;
+import com.navercorp.pinpoint.web.inspector.hbase.HbaseSampledDataSourceDao;
+import com.navercorp.pinpoint.web.inspector.hbase.SampledAgentStatResultExtractorSupplier;
+import com.navercorp.pinpoint.web.inspector.hbase.SampledResultsExtractorSupplier;
 import com.navercorp.pinpoint.web.mapper.stat.sampling.sampler.AgentStatSampler;
 import com.navercorp.pinpoint.web.vo.stat.SampledActiveTrace;
 import com.navercorp.pinpoint.web.vo.stat.SampledAgentStatDataPoint;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.navercorp.pinpoint.web.dao.hbase.stat;
+package com.navercorp.pinpoint.web.inspector.hbase;
 
 import com.navercorp.pinpoint.common.hbase.ResultsExtractor;
 import com.navercorp.pinpoint.common.server.bo.stat.AgentStatDataPoint;

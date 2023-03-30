@@ -1,4 +1,4 @@
-package com.navercorp.pinpoint.web.dao.hbase.config;
+package com.navercorp.pinpoint.web.inspector.config;
 
 import com.navercorp.pinpoint.common.server.bo.codec.stat.ApplicationStatDecoder;
 import com.navercorp.pinpoint.common.server.bo.stat.join.JoinActiveTraceBo;
@@ -13,9 +13,9 @@ import com.navercorp.pinpoint.common.server.bo.stat.join.JoinStatBo;
 import com.navercorp.pinpoint.common.server.bo.stat.join.JoinTotalThreadCountBo;
 import com.navercorp.pinpoint.common.server.bo.stat.join.JoinTransactionBo;
 import com.navercorp.pinpoint.common.server.bo.stat.join.StatType;
-import com.navercorp.pinpoint.web.dao.appmetric.ApplicationMetricDao;
-import com.navercorp.pinpoint.web.dao.hbase.appmetric.DefaultApplicationMetricDao;
-import com.navercorp.pinpoint.web.dao.hbase.appmetric.HbaseApplicationStatDaoOperations;
+import com.navercorp.pinpoint.web.inspector.dao.ApplicationMetricDao;
+import com.navercorp.pinpoint.web.inspector.dao.DefaultApplicationMetricDao;
+import com.navercorp.pinpoint.web.inspector.dao.HbaseApplicationStatDaoOperations;
 import com.navercorp.pinpoint.web.mapper.stat.sampling.sampler.ApplicationStatSampler;
 import com.navercorp.pinpoint.web.vo.stat.AggreJoinActiveTraceBo;
 import com.navercorp.pinpoint.web.vo.stat.AggreJoinCpuLoadBo;

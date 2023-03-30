@@ -1,4 +1,4 @@
-package com.navercorp.pinpoint.web.service.appmetric;
+package com.navercorp.pinpoint.web.inspector.service;
 
 import com.navercorp.pinpoint.web.util.TimeWindow;
 import com.navercorp.pinpoint.web.vo.stat.AggregationStatData;

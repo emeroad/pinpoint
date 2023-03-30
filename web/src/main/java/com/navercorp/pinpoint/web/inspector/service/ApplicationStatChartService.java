@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Naver Corp.
+ * Copyright 2017 NAVER Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.navercorp.pinpoint.web.dao;
+package com.navercorp.pinpoint.web.inspector.service;
 
 import com.navercorp.pinpoint.web.service.stat.ChartTypeSupport;
 import com.navercorp.pinpoint.web.util.TimeWindow;
-import com.navercorp.pinpoint.web.vo.stat.SampledAgentStatDataPoint;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import com.navercorp.pinpoint.web.vo.stat.chart.StatChart;
+import org.springframework.stereotype.Service;
 
 /**
- * @author HyunGil Jeong
+ * @author minwoo.jung
  */
-@Repository
-public interface SampledAgentStatDao<S extends SampledAgentStatDataPoint> extends ChartTypeSupport {
-
-    List<S> getSampledAgentStatList(String agentId, TimeWindow timeWindow);
+@Service
+public interface ApplicationStatChartService<OUT extends StatChart> extends ChartTypeSupport {
+    OUT selectApplicationChart(String applicationId, TimeWindow timeWindow);
 }
