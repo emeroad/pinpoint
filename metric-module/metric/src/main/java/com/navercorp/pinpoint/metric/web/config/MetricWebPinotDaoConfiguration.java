@@ -5,11 +5,13 @@ import com.navercorp.pinpoint.pinot.mybatis.MyBatisConfiguration;
 import com.navercorp.pinpoint.pinot.mybatis.PinotAsyncTemplate;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +35,7 @@ public class MetricWebPinotDaoConfiguration {
 
 
     @Bean
-    public SqlSessionFactory sqlPinotSessionFactory(
+    public FactoryBean<SqlSessionFactory> sqlPinotSessionFactory(
             @Qualifier("pinotDataSource") DataSource dataSource,
             @Value("classpath*:/pinot-web/mapper/pinot/*Mapper.xml") Resource[] mappers) throws Exception {
 
@@ -53,10 +55,10 @@ public class MetricWebPinotDaoConfiguration {
         registry.registerTypeAlias(config.getTypeAliasRegistry());
         registry.registerTypeHandler(config.getTypeHandlerRegistry());
 
-        return sessionFactoryBean.getObject();
+        return sessionFactoryBean;
     }
 
-    private ManagedTransactionFactory transactionFactory() {
+    private TransactionFactory transactionFactory() {
         return new ManagedTransactionFactory();
     }
 
