@@ -1,5 +1,6 @@
 package com.navercorp.pinpoint.web.config;
 
+import com.navercorp.pinpoint.web.frontend.config.ExperimentalConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;

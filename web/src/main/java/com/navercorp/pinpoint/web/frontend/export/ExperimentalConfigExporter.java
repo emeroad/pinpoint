@@ -1,6 +1,6 @@
 package com.navercorp.pinpoint.web.frontend.export;
 
-import com.navercorp.pinpoint.web.config.ExperimentalConfig;
+import com.navercorp.pinpoint.web.frontend.config.ExperimentalConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 

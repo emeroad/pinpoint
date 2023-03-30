@@ -1,5 +1,6 @@
 package com.navercorp.pinpoint.web.frontend;
 
+import com.navercorp.pinpoint.web.frontend.config.ExperimentalConfig;
 import com.navercorp.pinpoint.web.frontend.controller.FrontendConfigController;
 import com.navercorp.pinpoint.web.frontend.export.FrontendConfigExporter;
 import org.apache.logging.log4j.LogManager;
@@ -7,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
 
 import java.util.List;
 
@@ -22,6 +24,11 @@ public class FrontendConfigExportConfiguration {
     @Bean
     public FrontendConfigController configController(List<FrontendConfigExporter> exporters) {
         return new FrontendConfigController(exporters);
+    }
+
+    @Bean
+    public ExperimentalConfig experimentalConfig(Environment env) {
+        return new ExperimentalConfig(env);
     }
 
 }
