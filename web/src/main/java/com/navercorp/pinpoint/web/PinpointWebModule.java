@@ -14,6 +14,7 @@ import com.navercorp.pinpoint.web.config.WebMysqlDataSourceConfiguration;
 import com.navercorp.pinpoint.web.config.WebSocketConfig;
 import com.navercorp.pinpoint.web.frontend.FrontendConfigExportConfiguration;
 import com.navercorp.pinpoint.web.install.InstallModule;
+import com.navercorp.pinpoint.web.query.controller.QueryBindingController;
 import com.navercorp.pinpoint.web.webhook.WebhookModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -46,6 +47,7 @@ import org.springframework.core.env.StandardEnvironment;
         InstallModule.class,
         WebhookModule.class,
         FrontendConfigExportConfiguration.class,
+        QueryBindingController.class,
 
         // profile "basicLogin"
         BasicLoginConfiguration.class
@@ -56,7 +58,6 @@ import org.springframework.core.env.StandardEnvironment;
         "com.navercorp.pinpoint.web.filter",
         "com.navercorp.pinpoint.web.view",
         "com.navercorp.pinpoint.web.applicationmap",
-        "com.navercorp.pinpoint.web.query",
 })
 public class PinpointWebModule {
     @Bean

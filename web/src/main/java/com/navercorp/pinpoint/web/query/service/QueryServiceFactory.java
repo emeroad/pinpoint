@@ -1,5 +1,6 @@
-package com.navercorp.pinpoint.web.query;
+package com.navercorp.pinpoint.web.query.service;
 
+import com.navercorp.pinpoint.web.query.BindType;
 import io.jsonwebtoken.lang.Assert;
 import org.springframework.stereotype.Component;
 
