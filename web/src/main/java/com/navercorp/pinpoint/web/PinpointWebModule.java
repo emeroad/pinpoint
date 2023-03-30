@@ -13,6 +13,7 @@ import com.navercorp.pinpoint.web.config.ScatterChartConfig;
 import com.navercorp.pinpoint.web.config.WebClusterConfig;
 import com.navercorp.pinpoint.web.config.WebMysqlDataSourceConfiguration;
 import com.navercorp.pinpoint.web.config.WebSocketConfig;
+import com.navercorp.pinpoint.web.frontend.FrontendConfigExportConfiguration;
 import com.navercorp.pinpoint.web.install.InstallModule;
 import com.navercorp.pinpoint.web.webhook.WebhookModule;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,7 @@ import org.springframework.core.env.StandardEnvironment;
 
         InstallModule.class,
         WebhookModule.class,
+        FrontendConfigExportConfiguration.class,
 
         // profile "basicLogin"
         BasicLoginConfiguration.class
