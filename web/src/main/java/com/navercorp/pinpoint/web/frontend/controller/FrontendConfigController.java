@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author HyunGil Jeong
@@ -34,21 +35,21 @@ public class FrontendConfigController {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
-    private FrontendConfigExporter[] frontendConfigExporter;
+    private final List<FrontendConfigExporter> exporters;
 
     public FrontendConfigController(List<FrontendConfigExporter> exporters) {
-        this.frontendConfigExporter = exporters.toArray(new FrontendConfigExporter[0]);
+        this.exporters = Objects.requireNonNull(exporters, "exporters");
 
-        for (FrontendConfigExporter configExporter : frontendConfigExporter) {
-            logger.info("FrontendConfigExporter {}", configExporter.getClass());
-        }
+        exporters.forEach(exporter ->
+                logger.info("FrontendConfigExporter {}", exporter.getClass())
+        );
     }
 
     @GetMapping(value = "/configuration")
     public Map<String, Object> getProperties() {
 
         Map<String, Object> result = new HashMap<>();
-        for (FrontendConfigExporter configExporter : frontendConfigExporter) {
+        for (FrontendConfigExporter configExporter : exporters) {
             configExporter.export(result);
         }
         return result;
